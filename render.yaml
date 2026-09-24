@@ -1,0 +1,18 @@
+services:
+  # Backend API — FastAPI on Render
+  - type: web
+    name: bisathi-api
+    runtime: python
+    rootDir: .
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: python -m uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/v1/health
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false   # Set this manually in Render dashboard
+      - key: GEMINI_MODEL
+        value: gemini-2.0-flash
+      - key: ALLOWED_ORIGINS
+        sync: false   # Set to the deployed Vercel URL
+      - key: PYTHON_VERSION
+        value: "3.11"
